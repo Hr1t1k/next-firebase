@@ -26,7 +26,10 @@ function useUserSession(initialUser) {
 
       navigator.serviceWorker
         .register(serviceWorkerUrl)
-        .then((registration) => console.log("scope is: ", registration.scope));
+        .then((registration) => console.log("scope is: ", registration.scope))
+        .catch((error) => {
+          console.log("30 HEader", error);
+        });
     }
   }, []);
 

@@ -28,6 +28,15 @@ self.addEventListener("fetch", (event) => {
 });
 
 async function fetchWithFirebaseHeaders(request) {
+  const config = {
+    apiKey: firebaseConfig["apiKey"],
+    authDomain: firebaseConfig["authDomain"],
+    projectId: firebaseConfig["projectId"],
+    storageBucket: firebaseConfig["storageBucket"],
+    messagingSenderId: firebaseConfig["messagingSenderId"],
+    appId: firebaseConfig["apiKey"],
+  };
+  console.log(firebaseConfig);
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const installations = getInstallations(app);

@@ -10,9 +10,16 @@ import { getAuth } from "firebase/auth";
 
 export async function getAuthenticatedAppForUser() {
   const idToken = headers().get("Authorization")?.split("Bearer ")[1];
-  console.log('firebaseConfig', JSON.stringify(firebaseConfig));
+  const config = {
+    apiKey: firebaseConfig["apiKey"],
+    authDomain: firebaseConfig["authDomain"],
+    projectId: firebaseConfig["projectId"],
+    storageBucket: firebaseConfig["storageBucket"],
+    messagingSenderId: firebaseConfig["messagingSenderId"],
+    appId: firebaseConfig["appId"],
+  };
   const firebaseServerApp = initializeServerApp(
-    firebaseConfig,
+    config,
     idToken
       ? {
           authIdToken: idToken,
