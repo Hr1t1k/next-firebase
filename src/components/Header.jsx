@@ -22,6 +22,7 @@ function useUserSession(initialUser) {
       const serializedFirebaseConfig = encodeURIComponent(
         JSON.stringify(firebaseConfig)
       );
+
       const serviceWorkerUrl = `/auth-service-worker.js?firebaseConfig=${serializedFirebaseConfig}`;
 
       navigator.serviceWorker
