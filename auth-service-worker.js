@@ -24,29 +24,30 @@ self.addEventListener("install", (event) => {
 self.addEventListener("fetch", (event) => {
   const { origin } = new URL(event.request.url);
   if (origin !== self.location.origin) return;
-  event.respondWith(fetchWithFirebaseHeaders(event.request));
+  try {
+    event.respondWith(fetchWithFirebaseHeaders(event.request));
+  } catch (error) {
+    console.log(error);
+    return;
+  }
 });
 
 async function fetchWithFirebaseHeaders(request) {
-  try {
-    console.log(firebaseConfig);
+  console.log(firebaseConfig);
 
-    const app = initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
 
-    const auth = getAuth(app);
-    const installations = getInstallations(app);
-    const headers = new Headers(request.headers);
-    const [authIdToken, installationToken] = await Promise.all([
-      getAuthIdToken(auth),
-      getToken(installations),
-    ]);
-    headers.append("Firebase-Instance-ID-Token", installationToken);
-    if (authIdToken) headers.append("Authorization", `Bearer ${authIdToken}`);
-    const newRequest = new Request(request, { headers });
-    return await fetch(newRequest);
-  } catch (error) {
-    console.log(error);
-  }
+  const auth = getAuth(app);
+  const installations = getInstallations(app);
+  const headers = new Headers(request.headers);
+  const [authIdToken, installationToken] = await Promise.all([
+    getAuthIdToken(auth),
+    getToken(installations),
+  ]);
+  headers.append("Firebase-Instance-ID-Token", installationToken);
+  if (authIdToken) headers.append("Authorization", `Bearer ${authIdToken}`);
+  const newRequest = new Request(request, { headers });
+  return await fetch(newRequest);
 }
 
 async function getAuthIdToken(auth) {
