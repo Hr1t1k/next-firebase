@@ -24,12 +24,6 @@ self.addEventListener("install", (event) => {
 self.addEventListener("fetch", (event) => {
   const { origin } = new URL(event.request.url);
   if (origin !== self.location.origin) return;
-  console.log(
-    "log 27:",
-    event.request,
-    firebaseConfig,
-    process.env.NEXT_PUBLIC_FIREBASE_API_KEY
-  );
   event.respondWith(fetchWithFirebaseHeaders(event.request));
 });
 
